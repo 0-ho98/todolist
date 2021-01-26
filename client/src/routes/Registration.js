@@ -9,6 +9,7 @@ import Paper from "@material-ui/core/Paper";
 import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
+import Alert from '@material-ui/lab/Alert';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,10 +27,16 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(2),
   },
   textRoot: {
+    display:'flex',
+    flexFlow: 'wrap',
+    alignItems:'center',
     "& > *": {
-      margin: theme.spacing(1),
+      margin: '8px auto',
       width: "300px",
     },
+  },
+  header:{
+    textAlign:'center'
   },
   textField: {
     marginLeft: theme.spacing(1),
@@ -39,10 +46,13 @@ const useStyles = makeStyles((theme) => ({
   paper: {
     display: "flex",
     flexWrap: "wrap",
+    justifyContent: 'center',
+    width: theme.spacing(46),
+    margin: "0 auto",
     "& > *": {
       margin: theme.spacing(1),
-      width: theme.spacing(16),
-      height: theme.spacing(78),
+      width: theme.spacing(50),
+      height: theme.spacing(88),
     },
     
   },
@@ -65,17 +75,24 @@ const Example = () => {
   };
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    comparePassword();
-    addMembership();
+    comparePassword(); 
+    //원래는 passwordError의 boolean 값에 따라서 addMembership을 조정하려고 했으나 ModalBox에서만 값이 바뀌고
+    // 여기서는 passwordError의 값이 변화가 없고 계속 false값만 내놓는다.
+    //그래서 그냥 아예 먼저 comparePassword 안에서 조건을 걸어서 addMembership을
   };
+
   const comparePassword = () => {
     if (userPassword !== passwordCheck) {
+      console.log('안돼요');
       return setPasswordError(true);
+    } else {
+      console.log('이제 보내집니다.')
+      addMembership();
     }
   };
   const addMembership = () => {
     axios
-      .post("/login", {
+      .post("/api/member", {
         userName,
         userId,
         userPassword,
@@ -119,10 +136,10 @@ const Example = () => {
         <form
           onSubmit={handleFormSubmit}
           className={classes.textRoot}
-          noValidate
+          // noValidate 이것을 사용하면 오류가 안 뜬다. 즉, required가 적용 안된다.
           autoComplete="off"
         >
-          <h1>회원가입</h1>
+          <h1 className={classes.header}>회원가입</h1>
           <TextField
             id="outlined-basic"
             label="이름"
@@ -131,6 +148,7 @@ const Example = () => {
             value={userName}
             onChange={onChangeName}
             required
+            
           />
           <br />
           <TextField
@@ -142,7 +160,7 @@ const Example = () => {
             onChange={onChangeId}
             required
           />
-          <br />
+          <Alert severity="error">This is an error alert — check it out!</Alert>
           <TextField
             id="outlined-basic"
             label="비밀번호"
@@ -190,7 +208,7 @@ const Example = () => {
             required
           />
           <br />
-          <FormControl className={classes.formControl}>
+          <FormControl className={classes.formControl} required>
             <InputLabel id="demo-simple-select-label">성별: </InputLabel>
             <Select
               labelId="demo-simple-select-label"
