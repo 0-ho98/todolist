@@ -58,7 +58,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Example = () => {
+const Registration = () => {
   const classes = useStyles();
   const [userId, setUserId] = useState("");
   const [userName, setUserName] = useState("");
@@ -67,20 +67,23 @@ const Example = () => {
   const [birthday, setbirthday] = useState("");
   const [gender, setGender] = useState("남자");
   const [passwordError, setPasswordError] = useState(false);
+  const [passwordDigitsError, setPasswordDigitsError] = useState(false);
   const [eMail, setEMail] = useState("");
-
+  const [idInfo, setIdInfo] = useState('');
   const passwordErrorMessage = {
     title: "비밀번호 오류",
     description: "비밀번호를 다시 한번 확인 해주세요.",
   };
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    comparePassword(); 
+    comparePassword();
+    compareId().then((res)=>{
+      setIdInfo(res);
+    })
     //원래는 passwordError의 boolean 값에 따라서 addMembership을 조정하려고 했으나 ModalBox에서만 값이 바뀌고
     // 여기서는 passwordError의 값이 변화가 없고 계속 false값만 내놓는다.
     //그래서 그냥 아예 먼저 comparePassword 안에서 조건을 걸어서 addMembership을
   };
-
   const comparePassword = () => {
     if (userPassword !== passwordCheck) {
       console.log('안돼요');
@@ -90,6 +93,11 @@ const Example = () => {
       addMembership();
     }
   };
+  const compareId = async () => {
+    const response = await fetch('/api/member/id');
+    const body = await response.json();
+    return body;
+  }
   const addMembership = () => {
     axios
       .post("/api/member", {
@@ -112,6 +120,11 @@ const Example = () => {
   };
   const onChangePassword = (e) => {
     setUserPassword(e.target.value);
+    if(e.target.value.length < 8){
+      setPasswordDigitsError(true);
+    }else{
+      setPasswordDigitsError(false);
+    }
   };
   const onChangeName = (e) => {
     setUserName(e.target.value);
@@ -150,7 +163,6 @@ const Example = () => {
             required
             
           />
-          <br />
           <TextField
             id="outlined-basic"
             label="아이디"
@@ -160,7 +172,6 @@ const Example = () => {
             onChange={onChangeId}
             required
           />
-          <Alert severity="error">This is an error alert — check it out!</Alert>
           <TextField
             id="outlined-basic"
             label="비밀번호"
@@ -171,7 +182,10 @@ const Example = () => {
             onChange={onChangePassword}
             required
           />
-          <br />
+          {passwordDigitsError ? 
+            (<Alert severity="error">문자, 숫자, 기호를 조합하여 8자 이상을 사용하세요</Alert>):
+            ''
+          }
           <TextField
             id="outlined-basic"
             label="비민번호 확인"
@@ -182,7 +196,6 @@ const Example = () => {
             onChange={onChangePasswordCheck}
             required
           />
-          <br />
           <TextField
             id="outlined-basic"
             label="이메일"
@@ -193,7 +206,6 @@ const Example = () => {
             onChange={onChangeEMail}
             required
           />
-          <br />
           <TextField
             id="date"
             label="생년월일"
@@ -207,7 +219,6 @@ const Example = () => {
             onChange={onChangeBirthday}
             required
           />
-          <br />
           <FormControl className={classes.formControl} required>
             <InputLabel id="demo-simple-select-label">성별: </InputLabel>
             <Select
@@ -222,7 +233,6 @@ const Example = () => {
               <MenuItem value="여자">여자</MenuItem>
             </Select>
           </FormControl>
-          <br />
           <div className={classes.root}>
             <Button type="submit" variant="contained" color="primary">
               회원가입하기
@@ -239,4 +249,4 @@ const Example = () => {
   );
 };
 
-export default Example;
+export default Registration;
