@@ -69,17 +69,33 @@ const Registration = () => {
   const [passwordError, setPasswordError] = useState(false);
   const [passwordDigitsError, setPasswordDigitsError] = useState(false);
   const [eMail, setEMail] = useState("");
-  const [idInfo, setIdInfo] = useState('');
+  const [idError, setIdError] = useState(false);
   const passwordErrorMessage = {
     title: "비밀번호 오류",
     description: "비밀번호를 다시 한번 확인 해주세요.",
   };
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async(e) => {
     e.preventDefault();
-    comparePassword();
-    compareId().then((res)=>{
-      setIdInfo(res);
-    })
+    await compareId().then((res)=>{
+      console.log('아이디'+userId);
+      console.log(res);
+      //데이터 베이스에 아이디가 없는 경우
+      if(res.length===0){
+        console.log('이런');
+        comparePassword();
+        console.log('여기서 걸리면 안돼');
+      }
+      res.forEach(element => {
+        console.log(element);
+        if(userId === element.userId){
+          console.log('아이디가 같네요');
+          return setIdError(true);
+        }else{
+        comparePassword();
+        return setIdError(false);
+        }
+      });
+    });    
     //원래는 passwordError의 boolean 값에 따라서 addMembership을 조정하려고 했으나 ModalBox에서만 값이 바뀌고
     // 여기서는 passwordError의 값이 변화가 없고 계속 false값만 내놓는다.
     //그래서 그냥 아예 먼저 comparePassword 안에서 조건을 걸어서 addMembership을
@@ -117,6 +133,7 @@ const Registration = () => {
   };
   const onChangeId = (e) => {
     setUserId(e.target.value);
+    setIdError(false);
   };
   const onChangePassword = (e) => {
     setUserPassword(e.target.value);
@@ -154,7 +171,7 @@ const Registration = () => {
         >
           <h1 className={classes.header}>회원가입</h1>
           <TextField
-            id="outlined-basic"
+            id="outlined-basic1"
             label="이름"
             variant="outlined"
             name="userName"
@@ -164,7 +181,7 @@ const Registration = () => {
             
           />
           <TextField
-            id="outlined-basic"
+            id="outlined-basic2"
             label="아이디"
             variant="outlined"
             name="userId"
@@ -172,8 +189,12 @@ const Registration = () => {
             onChange={onChangeId}
             required
           />
+          {idError ? 
+            (<Alert severity="error">아이디가 중복됩니다.</Alert>):
+            ''
+          }
           <TextField
-            id="outlined-basic"
+            id="outlined-basic3"
             label="비밀번호"
             type="password"
             variant="outlined"
@@ -187,7 +208,7 @@ const Registration = () => {
             ''
           }
           <TextField
-            id="outlined-basic"
+            id="outlined-basic4"
             label="비민번호 확인"
             type="password"
             variant="outlined"
@@ -197,7 +218,7 @@ const Registration = () => {
             required
           />
           <TextField
-            id="outlined-basic"
+            id="outlined-basic5"
             label="이메일"
             type="email"
             variant="outlined"
