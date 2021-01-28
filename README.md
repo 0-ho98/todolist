@@ -8,4 +8,4 @@
 ### (1)  ` npm start `
 ### (2)  ` yarn start `
 ## 7. Server와 Client를 같이 실행하고 싶다면, yarn dev를 터미널에 입력하세요.
-### (1) `  `
+### (1) ` yarn dev `
