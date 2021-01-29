@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
+import {withRouter} from 'react-router-dom';
 import ModalBox from "../components/ModalBox";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
@@ -58,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Registration = () => {
+const Registration = (props) => {
   const classes = useStyles();
   const [userId, setUserId] = useState("");
   const [userName, setUserName] = useState("");
@@ -74,38 +75,51 @@ const Registration = () => {
     title: "비밀번호 오류",
     description: "비밀번호를 다시 한번 확인 해주세요.",
   };
+
   const handleFormSubmit = async(e) => {
     e.preventDefault();
     await compareId().then((res)=>{
-      console.log('아이디'+userId);
-      console.log(res);
       //데이터 베이스에 아이디가 없는 경우
+      let errorValue = false;
       if(res.length===0){
-        console.log('이런');
         comparePassword();
-        console.log('여기서 걸리면 안돼');
-      }
-      res.forEach(element => {
-        console.log(element);
-        if(userId === element.userId){
-          console.log('아이디가 같네요');
-          return setIdError(true);
-        }else{
-        comparePassword();
-        return setIdError(false);
+      }else{
+        for (let i = 0; i < res.length; i++) {
+          const element = res[i];
+          if(userId === element.userId){
+            console.log('아이디가 같네요');
+            setIdError(true);
+            errorValue = true;
+            break;
+          }else{
+            continue;
+          }
         }
-      });
-    });    
+          if(errorValue===false) {
+            throwDigitsError();
+          }
+      }
+    });   
     //원래는 passwordError의 boolean 값에 따라서 addMembership을 조정하려고 했으나 ModalBox에서만 값이 바뀌고
     // 여기서는 passwordError의 값이 변화가 없고 계속 false값만 내놓는다.
     //그래서 그냥 아예 먼저 comparePassword 안에서 조건을 걸어서 addMembership을
   };
+  const throwDigitsError = () =>{
+    if(passwordDigitsError===true){
+      console.log('비밀번호 자리수를 맞춰주세요.');
+    }else{
+      comparePassword();
+      //redirection이 제대로 안된다..
+      props.history.push('/login');
+    }
+  }
+
   const comparePassword = () => {
     if (userPassword !== passwordCheck) {
       console.log('안돼요');
       return setPasswordError(true);
     } else {
-      console.log('이제 보내집니다.')
+      console.log('이제 보내집니다.');
       addMembership();
     }
   };
@@ -131,6 +145,7 @@ const Registration = () => {
         console.log(error);
       });
   };
+
   const onChangeId = (e) => {
     setUserId(e.target.value);
     setIdError(false);
@@ -270,4 +285,4 @@ const Registration = () => {
   );
 };
 
-export default Registration;
+export default withRouter(Registration);

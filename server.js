@@ -42,7 +42,7 @@ app.post('/api/member', (req, res)=>{
             console.log(rows);
           }
         }
-        )
+    );
 });
 
 app.get('/api/member/id', (req, res)=>{
