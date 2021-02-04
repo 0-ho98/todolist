@@ -110,7 +110,7 @@ const Registration = (props) => {
     }else{
       comparePassword();
       //redirection이 제대로 안된다..
-      props.history.push('/login');
+      // props.history.push('/login');
     }
   }
 
@@ -285,4 +285,4 @@ const Registration = (props) => {
   );
 };
 
-export default withRouter(Registration);
+export default Registration;
