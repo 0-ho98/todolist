@@ -4,14 +4,14 @@ import Header from '../components/Header';
 import Login from '../routes/Login';
 class Home extends React.Component{
     render(){
+        const {location: {pathname} } =this.props;
+        console.log(pathname);
         return (
             <BrowserRouter>
-            <Route path="/login" component={Header}/>
+            <Header pathname= {pathname}/>
             <Switch>
                 <Route path="/login" component={Login}/>
-                {/* <Route path="/main" component={}/> */}
             </Switch>
-            
             </BrowserRouter>
         )
     }
