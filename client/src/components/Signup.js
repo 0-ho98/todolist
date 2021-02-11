@@ -10,6 +10,7 @@ import FormControl from "@material-ui/core/FormControl";
 import Select from "@material-ui/core/Select";
 import TextField from "@material-ui/core/TextField";
 import Alert from '@material-ui/lab/Alert';
+import Modal from '@material-ui/core/Modal';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -177,6 +178,9 @@ const Signup = (props) => {
     setPasswordError(false);
   };
   return (
+      <Modal 
+      open={props.isSignup}
+      onClose={()=>{props.setIsSignup(false)}}>
       <Paper className={classes.paper} elevation={3}>
         <form
           onSubmit={handleFormSubmit}
@@ -282,6 +286,7 @@ const Signup = (props) => {
           />
         </form>
       </Paper>
+      </Modal>
   );
 };
 
