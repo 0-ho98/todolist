@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Signup from "./Signup";
-import Login from "./Login"
+// import Login from "./Login"
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -63,6 +63,7 @@ const Main = () => {
           <img
             className={classes.image}
             src="https://cdn.pixabay.com/photo/2021/01/28/03/13/person-5956897_1280.jpg"
+            alt="홈 사진"
           />
         </div>
         <div className={classes.introduce}>

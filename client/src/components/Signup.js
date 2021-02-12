@@ -60,7 +60,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Signup = (props) => {
-  console.log(props);
   const classes = useStyles();
   const [userId, setUserId] = useState("");
   const [userName, setUserName] = useState("");
@@ -105,6 +104,7 @@ const Signup = (props) => {
     // 여기서는 passwordError의 값이 변화가 없고 계속 false값만 내놓는다.
     //그래서 그냥 아예 먼저 comparePassword 안에서 조건을 걸어서 addMembership을
   };
+  // 자리수 맞추기 위해 존재하는 함수
   const throwDigitsError = () =>{
     if(passwordDigitsError===true){
       console.log('비밀번호 자리수를 맞춰주세요.');
@@ -121,6 +121,9 @@ const Signup = (props) => {
       return setPasswordError(true);
     } else {
       console.log('이제 보내집니다.');
+      console.log(props);
+        props.setIsSignup(false);
+        console.log(props.isSignup);
       addMembership();
     }
   };
@@ -138,9 +141,6 @@ const Signup = (props) => {
         birthday,
         gender,
         eMail,
-      })
-      .then((response) => {
-        console.log(response);
       })
       .catch((error) => {
         console.log(error);
@@ -274,7 +274,7 @@ const Signup = (props) => {
             </Select>
           </FormControl>
           <div className={classes.root}>
-            <Button type="submit" variant="contained" color="primary">
+            <Button type="submit" variant="contained" color="primary" >
               회원가입하기
             </Button>
           </div>
