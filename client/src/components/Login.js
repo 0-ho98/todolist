@@ -2,9 +2,10 @@ import React from 'react';
 import axios from 'axios';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Form,Button} from 'react-bootstrap';
-import './Login.css';
+//import './Login.css';
 import Dialog from '@material-ui/core/Dialog';
 import DialogContent from '@material-ui/core/DialogContent';
+import { Modal } from 'bootstrap';
 
 
 
@@ -79,10 +80,9 @@ class Login extends React.Component{
            justifyContent:"center"
         }
         return (
-            <div>
-                <button variant="contained" color="primary" onClick={this.handleClickOpen}>
-                    로그인하기
-                </button>
+            <Modal 
+            open={this.props.islogin}
+            onclose={()=>{this.props.setIslogin(false)}}>
                 <Dialog open={this.state.open} onclose={this.handleClose}>
                     <DialogContent>
                     <Form onSubmit={this.handleSubmit} style={formStyle}>
@@ -106,7 +106,7 @@ class Login extends React.Component{
 </Form>
                     </DialogContent>
                 </Dialog>
-            </div>
+                </Modal>
         );
     }
 }

@@ -2,7 +2,7 @@ import React, {useState} from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import Signup from "./Signup";
-// import Login from "./Login"
+import Login from "./Login";
 const useStyles = makeStyles((theme) => ({
   root: {
     width: "100%",
@@ -48,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Main = () => {
   const classes = useStyles();
-  const [islogin, setIslogin] = useState(false);
+  const [islogin,setIslogin] = useState(false);
   const [isSignup, setIsSignup] = useState(false);
   const useSignup = () =>{
       setIsSignup(true);
@@ -72,6 +72,7 @@ const Main = () => {
         </div>
         {/* <Login open/> */}
         <Signup isSignup = {isSignup} setIsSignup = {setIsSignup} />
+        <Login islogin = {islogin} setIslogin = {setIslogin} />
         <div className={classes.buttonContainer}>
           <Button name="login" variant="contained" color="primary" onClick={useLogin}>
             Login

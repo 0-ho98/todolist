@@ -4,7 +4,6 @@ import Footer from './components/Footer';
 import Header from './components/Header';
 // import Navigation from './components/Navigation';
 import Home from "./routes/Home";
-import Registration from "./routes/Registration";
 import 'bootstrap/dist/css/bootstrap.min.css';
 function App() {
   return (
