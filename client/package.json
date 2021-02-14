@@ -4,12 +4,19 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.11.2",
+<<<<<<< HEAD
+=======
+    "@material-ui/icons": "^4.11.2",
+>>>>>>> f80cc4ec82eb1dff6874899ed26801f3005d846e
     "@material-ui/lab": "^4.0.0-alpha.57",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
+<<<<<<< HEAD
     "bootstrap": "^4.6.0",
+=======
+>>>>>>> f80cc4ec82eb1dff6874899ed26801f3005d846e
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
     "react-dom": "^17.0.1",
@@ -41,5 +48,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:5000/"
 }
